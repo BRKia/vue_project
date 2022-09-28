@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <resultMap id="pageUser" type="com.example.entity.User">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="nickname" column="nickname"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="createTime" column="create_time"/>
+        <!--column 表示数据库中字段名-->
+        <result property="avatar" column="avatar"/>
+        <result property="role" column="role"/>
+        <result property="address" column="address"/>
+        <result property="password" column="password"/>
+        <collection property="courses" javaType="java.util.ArrayList" ofType="com.example.entity.Course">
+            <result column="teacherCourseName" property="name"/>
+            <result column="teachScore" property="score"/>
+        </collection>
+        <collection property="stuCourses" javaType="java.util.ArrayList" ofType="com.example.entity.Course">
+            <result column="stuCourseName" property="name"/>
+            <result column="stuTerm" property="term"/>
+            <result column="stuScore" property="score"/>
+        </collection>
+        <collection property="stuCourses02" javaType="java.util.ArrayList" ofType="com.example.entity.Course02">
+            <result column="stuCourseName02" property="name"/>
+            <result column="stuTerm02" property="term"/>
+            <result column="stuScore02" property="score"/>
+        </collection>
+    </resultMap>
+
+    <select id="findPage01" resultMap="pageUser">
+            select sys_user.*, tc.name as teacherCourseName02, tc.score as teachScore02,
+                    sc_cli.name as stuCourseName, sc_cli.term as stuTerm, sc_cli.score as stuScore from sys_user
+
+            left join student_course
+                on sys_user.id = student_course.student_id
+--              查医学生的
+            left join sys_course sc_cli
+                on student_course.course_id = sc_cli.id
+--             查医学老师的
+            left join sys_course tc
+                on sys_user.id = tc.teacher_id
+
+
+            <where>
+                <if test="username != null and username != ''">
+                    and sys_user.username like concat('%', #{username}, '%')
+                </if>
+                <if test="address != null and address != ''">
+                    and sys_user.address like concat('%', #{address}, '%')
+                </if>
+                <if test="nickname != null and nickname != ''">
+                    and sys_user.nickname like concat('%', #{nickname}, '%')
+                </if>
+                <if test="email != null and email != ''">
+                    and sys_user.email like concat('%', #{email}, '%')
+                </if>
+            </where>
+    </select>
+    <select id="findPage02" resultMap="pageUser">
+        select sys_user.*, tc02.name as teacherCourseName, tc02.score as teachScore,
+        sc_chi.name as stuCourseName02, sc_chi.term as stuTerm02, sc_chi.score as stuScore02 from sys_user
+
+        left join student_course02
+        on sys_user.id = student_course02.student_id
+        --              查汉语言学生的
+        left join sys_course_02 sc_chi
+        on student_course02.course_id = sc_chi.id
+        --             查汉语言老师的
+        left join sys_course_02 tc02
+        on sys_user.id = tc02.teacher_id
+        <where>
+            <if test="username != null and username != ''">
+                and sys_user.username like concat('%', #{username}, '%')
+            </if>
+            <if test="address != null and address != ''">
+                and sys_user.address like concat('%', #{address}, '%')
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and sys_user.nickname like concat('%', #{nickname}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                and sys_user.email like concat('%', #{email}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

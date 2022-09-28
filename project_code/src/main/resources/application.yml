@@ -1,0 +1,31 @@
+server:
+  ip: 124.70.63.245
+  port: 9090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://124.70.63.245:3306/brk?serverTimezone=GMT%2b8
+    username: root
+    password: 123456
+  servlet:
+    multipart:
+      max-file-size: 1048MB
+      max-request-size: 1048MB
+  main:
+    allow-circular-references: true
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+files:
+  upload:
+#    path: C:/D/编程/Maven/SpringBoot_demo/load_files/
+#    path: http://124.70.63.245:9090/home/files/
+    path: /home/files/
+#    path: /files/

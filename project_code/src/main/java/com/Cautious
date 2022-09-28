@@ -1,0 +1,8 @@
+打开数据包后需要更改的地方：
+    src/main/resources/application.yml 的upload路径改为现在的springboot的load_files的绝对路径
+    左上角settings里的file_Encoding全部改为GBK。保证控制台中文的正常输出
+如果要查询全部信息，要把实体类的注解写完全
+若写入文件夹内有相同文件，则无法写入磁盘
+后端给前端的数据要改写成驼峰形式，不要有特殊标点
+下载node.js,vue.js
+使用其他端口时，需要全局搜索124.70.63.245(shift+ctrl+r),修改成新的端口号

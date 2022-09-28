@@ -1,0 +1,19 @@
+
+
+clearFilter () {
+      this.$refs.filterTable.clearFilter('term');
+      this.$refs.filterTable.clearFilter('property');
+      this.$refs.filterTable.clearFilter('state');
+      this.$message.success('清空成功')
+
+    },filterHandler(value, row, column) {
+            const property = column['property'];
+            return row[property] === value;
+          },
+          filterState(value, row, column) {
+            const property = column['property'];
+            if (value.length !== 1) {
+              return row[property] !== '-'
+            }
+            return row[property] === value;
+          },

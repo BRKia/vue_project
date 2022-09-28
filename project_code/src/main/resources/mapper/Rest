@@ -1,0 +1,27 @@
+ <select id="findPage02" resultMap="pageUser">
+        select sys_user.*, tc02.name as teacherCourseName, tc02.score as teachScore,
+        sc_chi.name as stuCourseName02, sc_chi.term as stuTerm02, sc_chi.score as stuScore02 from sys_user
+
+        left join student_course
+        on sys_user.id = student_course.student_id
+        --              查汉语言学生的
+        left join sys_course sc_chi
+        on student_course.course_id = sc_chi.id
+        --             查汉语言老师的
+        left join sys_course tc02
+        on sys_user.id = tc02.teacher_id
+        <where>
+            <if test="username != null and username != ''">
+                and sys_user.username like concat('%', #{username}, '%')
+            </if>
+            <if test="address != null and address != ''">
+                and sys_user.address like concat('%', #{address}, '%')
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and sys_user.nickname like concat('%', #{nickname}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                and sys_user.email like concat('%', #{email}, '%')
+            </if>
+        </where>
+    </select>
